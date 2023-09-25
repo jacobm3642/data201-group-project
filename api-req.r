@@ -23,17 +23,16 @@ get_all_indicators <- function() {
     if (is.null(data) || is.null(data$value)) {
         cat("Error: No indicator data found.\n")
         return(NULL)
-    } 
+    }
 
     return(data$value)
 }
 
-get_health_data <- function(countries, indicators) {
+get_health_data <- function(indicators) {
     base_url <- "https://ghoapi.azureedge.net/api/"
     
     data_frames <- list()
-    
-    for (country in countries) {
+  
         for (indicator in indicators) {
             url <- paste0(base_url, indicator)
 
@@ -46,16 +45,7 @@ get_health_data <- function(countries, indicators) {
                 cat("L1 Error:", http_status(response)$reason, "\n")
             } else {
                 data <- content(response, "parsed")
-                if (length(data) > 0) {
-                    data_frames[[paste(indicator)]] <- data
-                } else {
-                    cat("No data found for", country, "and", indicator, "\n")
-                }
             }
         }
-    }
-    
-    combined_data <- do.call(rbind, data_frames) 
-    
-    return(combined_data)
+    return(data[2])
 }
