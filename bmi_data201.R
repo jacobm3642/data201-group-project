@@ -1,6 +1,6 @@
 library(tidyverse)
 
-data <- read.csv
+data <- read.csv('bmi_data.csv')
 
 #Tidying the data:
 
@@ -48,31 +48,131 @@ data_copy <- data_copy %>%
 
 
 #Investigate if different genders have increased bmi:
-ggplot(data_copy, aes(period, average_bmi, col=gender)) + geom_point(size=0.8)
-#filter for each region:
+ggplot(subset(data_copy, !is.na(average_bmi)), aes(period, average_bmi, col=gender)) + geom_point(size=0.8) +
+  ggtitle("Average bmi from 1975 to 2016")
+
+###################FILTER FOR EACH REGION:######################################
+
+####AFRICA:####
+
 data_copy %>% 
   filter(parent_location == 'Africa') %>%
-  ggplot(aes(period, average_bmi, col=gender)) + geom_point(size=0.8)
+  ggplot(aes(period, average_bmi, col=gender)) + geom_point(size=0.8) + 
+  ggtitle("Average bmi in Africa from 1975 to 2016")
+
+data_copy %>%
+  filter(parent_location == 'Africa',
+         period == 1975) %>%
+  ggplot(aes(gender, average_bmi)) + geom_boxplot() + 
+  ggtitle('Average bmi for each gender in Africa recorded in 1975') + ylim(17.0, 30.0)
+
+data_copy %>%
+  filter(parent_location == 'Africa',
+         period == 2016) %>%
+  ggplot(aes(gender, average_bmi)) + geom_boxplot() +
+  ggtitle('Average bmi for each gender in Africa recorded in 2016') + ylim(17, 30)
+
+####AMERICA:####
 
 data_copy %>% 
   filter(parent_location == 'Americas') %>%
-  ggplot(aes(period, average_bmi, col=gender)) + geom_point(size=0.8)
+  ggplot(aes(period, average_bmi, col=gender)) + geom_point(size=0.8) +
+  ggtitle("Average bmi in America from 1975 to 2016") 
+
+data_copy %>%
+  filter(parent_location == 'Americas',
+         period == 1975) %>%
+  ggplot(aes(gender, average_bmi)) + geom_boxplot() + 
+  ggtitle('Average bmi for each gender in America recorded in 1975') +  ylim(17, 30)
+
+data_copy %>%
+  filter(parent_location == 'Americas',
+         period == 2016) %>%
+  ggplot(aes(gender, average_bmi)) + geom_boxplot() + 
+  ggtitle('Average bmi for each gender in America recorded in 2016') +  ylim(17, 30)
+
+
+####EASTERN MEDITERRANIEAN####
 
 data_copy %>% 
   filter(parent_location == 'Eastern Mediterranean') %>%
-  ggplot(aes(period, average_bmi, col=gender)) + geom_point(size=0.8)
+  ggplot(aes(period, average_bmi, col=gender)) + geom_point(size=0.8) +
+  ggtitle("Average bmi in the Eastern Mediterranean from 1975 to 2016")
+
+data_copy %>%
+  filter(parent_location == 'Eastern Mediterranean',
+         period == 1975) %>%
+  ggplot(aes(gender, average_bmi)) + geom_boxplot() + 
+  ggtitle('Average bmi for each gender in the Eastern Mediterranean recorded in 1975') +  ylim(17, 30)
+
+data_copy %>%
+  filter(parent_location == 'Eastern Mediterranean',
+         period == 2016) %>%
+  ggplot(aes(gender, average_bmi)) + geom_boxplot() + 
+  ggtitle('Average bmi for each gender in the Eastern Mediterranean recorded in 2016') +  ylim(17, 30)
+
+
+#####EUROPE#####
 
 data_copy %>% 
   filter(parent_location == 'Europe') %>%
-  ggplot(aes(period, average_bmi, col=gender)) + geom_point(size=0.8)
+  ggplot(aes(period, average_bmi, col=gender)) + geom_point(size=0.8) +
+  ggtitle("Average bmi in Europe from 1975 to 2016")
+
+data_copy %>%
+  filter(parent_location == 'Europe',
+         period == 1975) %>%
+  ggplot(aes(gender, average_bmi)) + geom_boxplot() + 
+  ggtitle('Average bmi for each gender in Europe recorded in 1975') +  ylim(17, 30)
+
+data_copy %>%
+  filter(parent_location == 'Europe',
+         period == 2016) %>%
+  ggplot(aes(gender, average_bmi)) + geom_boxplot() + 
+  ggtitle('Average bmi for each gender in Europe recorded in 2016') +  ylim(17, 30)
+
+
+#####SOUTH-EAST ASIA#####
 
 data_copy %>% 
   filter(parent_location == 'South-East Asia') %>%
-  ggplot(aes(period, average_bmi, col=gender)) + geom_point(size=0.8)
+  ggplot(aes(period, average_bmi, col=gender)) + geom_point(size=0.8) +
+  ggtitle("Average bmi in South East Asia from 1975 to 2016")
+
+data_copy %>%
+  filter(parent_location == 'South-East Asia',
+         period == 1975) %>%
+  ggplot(aes(gender, average_bmi)) + geom_boxplot() + 
+  ggtitle('Average bmi for each gender in South East Asia recorded in 1975') +  ylim(17, 30)
+
+data_copy %>%
+  filter(parent_location == 'South-East Asia',
+         period == 2016) %>%
+  ggplot(aes(gender, average_bmi)) + geom_boxplot() + 
+  ggtitle('Average bmi for each gender in South East Asia recorded in 2016') +  ylim(17, 30)
+
+
+
+#####WESTERN PACIFIC#####
 
 data_copy %>% 
   filter(parent_location == 'Western Pacific') %>%
-  ggplot(aes(period, average_bmi, col=gender)) + geom_point(size=0.8)
+  ggplot(aes(period, average_bmi, col=gender)) + geom_point(size=0.8) +
+  ggtitle("Average bmi in the Western Pacific from 1975 to 2016")
+
+data_copy %>%
+  filter(parent_location == 'Western Pacific',
+         period == 1975) %>%
+  ggplot(aes(gender, average_bmi)) + geom_boxplot() + 
+  ggtitle('Average bmi for each gender in the Western Pacific recorded in 1975') +  ylim(17, 30)
+  
+  data_copy %>%
+  filter(parent_location == 'Western Pacific',
+         period == 2016) %>%
+  ggplot(aes(gender, average_bmi)) + geom_boxplot() + 
+  ggtitle('Average bmi for each gender in the Western pacific recorded in 2016') +  ylim(17, 30)
+
+
 
 
 
