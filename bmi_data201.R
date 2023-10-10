@@ -163,7 +163,7 @@ data_copy %>%
          period == 2016) %>%
   ggplot(aes(gender, average_bmi)) + geom_boxplot() + 
   ggtitle('Average bmi for each gender in South East Asia recorded in 2016') +  ylim(17, 30)
-ggsave('bmi 2016 south east asia boxplot.png')
+ggsave('bmi 2016 south east asia boxplot.png', scale=3)
 
 
 
