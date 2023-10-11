@@ -1,23 +1,25 @@
 library(httr)
 
 get_all_countries <- function() {
-  url <- "https://ghoapi.azureedge.net/api/DIMENSION/COUNTRY/DimensionValues"
+    url <- "https://ghoapi.azureedge.net/api/DIMENSION/COUNTRY/DimensionValues"
+
+    response <- GET(url)
   
-  response <- GET(url)
-  
-  data <- content(response, "parsed")
-  if (is.null(data) || is.null(data$value)) {
-    cat("Error: No country data found.\n")
-    return(NULL)
-  }
-  
-  return(data$value)
+    data <- content(response, "parsed")
+    if (is.null(data) || is.null(data$value)) {
+        cat("Error: No country data found.\n")
+        return(NULL)
+    }
+    
+    return(data$value)
 }
 
 get_all_indicators <- function() {
     url <- "https://ghoapi.azureedge.net/api/Indicator"
     
     response <- GET(url)
+
+    cat(url)
 
     data <- content(response, "parsed")
     if (is.null(data) || is.null(data$value)) {
