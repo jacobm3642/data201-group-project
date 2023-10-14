@@ -251,6 +251,46 @@ ggplot(western_pacific, aes(period, average_bmi, col=location)) + geom_point() +
 ggsave('Bmi for each country in the western pacific.png', scale=3)
 
 
+#Combine all boxplot into one:
+
+data_copy %>%
+  filter(period == 1975) %>%
+  ggplot(aes(region, average_bmi)) + geom_boxplot(fill='beige', color='black') +
+  ylim(17, 32) + 
+  ggtitle('1975') +
+  theme_minimal()
+
+ggsave('1975 all countries.png', scale=3)
+
+
+data_copy %>%
+  filter(period == 2016) %>%
+  ggplot(aes(region, average_bmi)) + geom_boxplot(fill='beige', color='black') +  
+  ylim(17, 32) +
+  ggtitle('2016') + 
+  theme_minimal()
+
+ggsave('2016 all countries.png', scale=3)
+
+
+#Genders for all regions
+data_copy %>%
+  filter(period == 1975) %>%
+  ggplot(aes(gender, average_bmi)) + geom_boxplot(fill='beige', color='black') +
+  ylim(17, 32) + 
+  ggtitle('1975') +
+  theme_minimal()
+
+ggsave('1975 gender bmi.png', scale=3)
+
+data_copy %>%
+  filter(period == 2016) %>%
+  ggplot(aes(gender, average_bmi)) + geom_boxplot(fill='beige', color='black') +
+  ylim(17, 32) + 
+  ggtitle('2016') +
+  theme_minimal()
+
+ggsave('2016 gender bmi.png', scale=3)
 
 #Download data: 
 write.csv(data_copy, "C:\\Users\\eha52\\OneDrive\\Desktop\\DATA201 Group Project\\region_gender.csv")
