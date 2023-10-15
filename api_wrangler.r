@@ -19,6 +19,7 @@ get_ind_data <- function(indicator) {
                 ind <- ind %>% select(-c(type_col, ref_col))
             } else if (length(indices) > 0 && !is.na(col_names_type[indices[1]])) {
                 type_label <- col_names_type[indices[1]]
+                # why doesn't r have switch statements i hate this style but it works
                 if (type_label == "factor") {
                     ind <- ind %>% mutate(!!ref_col := as.factor(!!sym(ref_col)))
                     ind <- ind %>% rename(!!type := !!sym(ref_col))
@@ -31,6 +32,7 @@ get_ind_data <- function(indicator) {
             }
         }
     }
+    ind <- ind %>% rename(country_codes = COUNTRY)
     ind <- remove_all_na_cols(ind)
     return(ind)
 }
