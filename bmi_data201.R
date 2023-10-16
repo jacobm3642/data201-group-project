@@ -14,7 +14,7 @@ data_copy <- data %>%
          minimum_bmi = FactValueNumericLow,
          maximum_bmi = FactValueNumericHigh)
 
-#Delete Unused Columns:
+#Delete Useless Columns:
 data_copy <- data_copy %>%
   subset(select = -c(Dim3.type,
          Dim3,
@@ -53,9 +53,9 @@ data_copy <- data_copy %>%
 
 
 #Investigate if different genders have increased bmi:
-ggplot(subset(data_copy, !is.na(average_bmi)), aes(period, average_bmi, col=gender)) + geom_point(size=0.8) +
+ggplot(subset(data_copy, !is.na(average_bmi)), aes(period, average_bmi, col=region)) + geom_jitter(size=2) +
   ggtitle("Average bmi from 1975 to 2016")
-ggsave('Average bmi from 1975 to 2016 all regions.png', scale=3)
+ggsave('Average bmi from 1975 to 2016 all regions.png', width=20, height=10, scale=1, limitsize = FALSE)
 
 ###################FILTER FOR EACH REGION:######################################
 
@@ -258,7 +258,7 @@ data_copy %>%
   ggplot(aes(region, average_bmi)) + geom_boxplot(fill='beige', color='black') +
   ylim(17, 32) + 
   ggtitle('1975') +
-  theme_minimal()
+  theme_bw()
 
 ggsave('1975 all countries.png', scale=3)
 
@@ -268,7 +268,7 @@ data_copy %>%
   ggplot(aes(region, average_bmi)) + geom_boxplot(fill='beige', color='black') +  
   ylim(17, 32) +
   ggtitle('2016') + 
-  theme_minimal()
+  theme_bw()
 
 ggsave('2016 all countries.png', scale=3)
 
@@ -279,7 +279,7 @@ data_copy %>%
   ggplot(aes(gender, average_bmi)) + geom_boxplot(fill='beige', color='black') +
   ylim(17, 32) + 
   ggtitle('1975') +
-  theme_minimal()
+  theme_bw()
 
 ggsave('1975 gender bmi.png', scale=3)
 
@@ -288,7 +288,7 @@ data_copy %>%
   ggplot(aes(gender, average_bmi)) + geom_boxplot(fill='beige', color='black') +
   ylim(17, 32) + 
   ggtitle('2016') +
-  theme_minimal()
+  theme_bw()
 
 ggsave('2016 gender bmi.png', scale=3)
 
