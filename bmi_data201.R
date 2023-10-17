@@ -296,3 +296,110 @@ ggsave('2016 gender bmi.png', scale=3)
 write.csv(data_copy, "C:\\Users\\eha52\\OneDrive\\Desktop\\DATA201 Group Project\\region_gender.csv")
 getwd()
 
+
+
+##MERGING DATA##
+
+#add another dataset showing the availability of refined sugar for each country
+#per capita of availability of refined sugar (g/day)
+
+sugar_data <- read.csv('oralhealthdata.csv')
+
+#clean new dataset:
+#Delete Useless Columns:
+sugar_data <- sugar_data %>%
+  subset(select = -c(Dim3.type,
+                     Dim3,
+                     Dim3ValueCode,
+                     DataSourceDimValueCode,
+                     DataSource,
+                     FactValueNumericPrefix,
+                     FactValueUoM,
+                     FactValueNumericLowPrefix,
+                     FactValueNumericHighPrefix,
+                     IndicatorCode,
+                     Indicator,
+                     ValueType,
+                     Period.type,
+                     Dim2.type,
+                     Dim1.type,
+                     Language,
+                     DateModified,
+                     FactValueTranslationID,
+                     FactComments
+  ))
+
+#Rename columns:
+
+sugar_data <- sugar_data %>%
+  rename(parent_location_code = ParentLocationCode,
+         parent_location = ParentLocation,
+         location_type = Location.type,
+         location_code = SpatialDimValueCode,
+         location = Location,
+         period = Period,
+         is_latest_year = IsLatestYear,
+         sugar_value = FactValueNumeric)
+
+#Join tables:
+
+sugar_bmi <- merge(data_copy, sugar_data, by='location_code')
+
+sugar_bmi %>%
+  filter(period.x==2016) %>%
+  ggplot(aes(sugar_value, average_bmi)) + geom_jitter(alpha=0.8, width=2) + geom_smooth(method=lm, se=FALSE)
+
+
+#BRING IN ANTOHER DATASET ABOUT DISEASES:
+
+diseases <- read.csv('diseases.csv')
+
+#remove useless shit
+diseases <- diseases %>%
+  subset(select = -c(IndicatorCode,
+                     Indicator,
+                     ValueType,
+                     Location.type,
+                     Period.type,
+                     IsLatestYear,
+                     Dim1.type,
+                     Dim2.type,
+                     Dim2,
+                     Dim2ValueCode,
+                     Dim3.type,
+                     Dim3,
+                     Dim3ValueCode,
+                     DataSourceDimValueCode,
+                     DataSource,
+                     FactValueNumericPrefix,
+                     FactValueUoM,
+                     FactValueNumericLowPrefix,
+                     FactValueNumericHighPrefix,
+                     FactValueTranslationID,
+                     FactComments,
+                     Language,
+                     DateModified))
+
+#rename columns:
+diseases <- diseases %>%
+  rename(parent_location_code = ParentLocationCode,
+         parent_location = ParentLocation,
+         location_code = SpatialDimValueCode,
+         location = Location,
+         period = Period,
+         gender = Dim1,
+         gender_code = Dim1ValueCode,
+         death_percentage = FactValueNumeric,
+         min_death_percentage = FactValueNumericLow,
+         max_death_percentage = FactValueNumericHigh,
+         value = Value)
+
+#merge :
+
+sugar_bmi_diseases <- merge(sugar_bmi, diseases, by='location_code')
+
+sugar_bmi_diseases %>%
+  filter(period.x == 2015,
+         period == 2015,
+         average_bmi > 25) %>%
+  ggplot(aes(average_bmi, death_percentage)) + geom_jitter() + geom_smooth(method=lm, se=FALSE)
