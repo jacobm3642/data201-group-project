@@ -326,24 +326,31 @@ sugar_data <- sugar_data %>%
                      Language,
                      DateModified,
                      FactValueTranslationID,
-                     FactComments
+                     FactComments,
+                     Dim1,
+                     Dim1ValueCode,
+                     Dim2,
+                     Dim2ValueCode,
+                     FactValueNumericLow,
+                     FactValueNumericHigh,
+                     Value,
+                     IsLatestYear
   ))
 
 #Rename columns:
 
 sugar_data <- sugar_data %>%
-  rename(parent_location_code = ParentLocationCode,
-         parent_location = ParentLocation,
+  rename(region_code = ParentLocationCode,
+         region = ParentLocation,
          location_type = Location.type,
          location_code = SpatialDimValueCode,
          location = Location,
          period = Period,
-         is_latest_year = IsLatestYear,
          sugar_value = FactValueNumeric)
 
 #Join tables:
 
-sugar_bmi <- merge(data_copy, sugar_data, by='location_code')
+sugar_bmi <- merge(data_copy, sugar_data, by='location_code', 'region_code')
 
 sugar_bmi %>%
   filter(period.x==2016) %>%
@@ -382,8 +389,8 @@ diseases <- diseases %>%
 
 #rename columns:
 diseases <- diseases %>%
-  rename(parent_location_code = ParentLocationCode,
-         parent_location = ParentLocation,
+  rename(region_code = ParentLocationCode,
+         region = ParentLocation,
          location_code = SpatialDimValueCode,
          location = Location,
          period = Period,
@@ -396,10 +403,97 @@ diseases <- diseases %>%
 
 #merge :
 
-sugar_bmi_diseases <- merge(sugar_bmi, diseases, by='location_code')
 
-sugar_bmi_diseases %>%
-  filter(period.x == 2015,
-         period == 2015,
-         average_bmi > 25) %>%
-  ggplot(aes(average_bmi, death_percentage)) + geom_jitter() + geom_smooth(method=lm, se=FALSE)
+bmi_diseases <- inner_join(data_copy, diseases, by= c('location_code', 'location', 'region', 'region_code', 'period', 'gender' ))
+
+bmi_diseases %>%
+  filter(average_bmi > 27.5) %>%
+  ggplot(aes(average_bmi, death_percentage, col=gender)) + geom_jitter(alpha=0.5) + geom_smooth(method=lm, se=FALSE) +
+  ggtitle('Death percentage from diabeties, heart diseases, Cardiovascular disease for bmi')
+
+#Bring in dataset about traffic injuries:
+
+traffic <- read.csv('road injuries.csv')
+
+#rename columns:
+traffic <- traffic %>%
+  rename(region_code = ParentLocationCode,
+         region = ParentLocation,
+         location_code = SpatialDimValueCode,
+         location = Location,
+         period = Period,
+         gender = Dim1,
+         gender_code = Dim1ValueCode,
+         num_deaths = FactValueNumeric,
+         min_deaths = FactValueNumericLow,
+         max_deaths = FactValueNumericHigh,
+         value = Value)
+
+
+#Join to Bmi table:
+
+bmi_traffic <- inner_join(data_copy, traffic, by = c('region_code', 'region', 'location_code', 'location', 'period', 'gender', 'gender_code'))
+
+#Try to investigate if a high bmi results in more traffic deaths.
+bmi_traffic %>%
+  filter(num_deaths > 1,
+         num_deaths < 20000) %>%
+  ggplot(aes(average_bmi, num_deaths)) +geom_jitter() + geom_smooth(method=lm, se=FALSE)
+
+
+
+#Bring in dataset about suicide rates (per 100,000)
+
+suicide <- read.csv('suicide.csv')
+
+#rename columns, I already deleted the bad colaumns in excel because it is faster.
+
+suicide <- suicide %>%
+  rename(region_code = ParentLocationCode,
+         region = ParentLocation,
+         location_code = SpatialDimValueCode,
+         location = Location,
+         period = Period,
+         gender = Dim1,
+         gender_code = Dim1ValueCode,
+         suicide_rate = FactValueNumeric,
+         min_suicide_rate = FactValueNumericLow,
+         max_suicide_rate = FactValueNumericHigh,
+         value = Value)
+
+#join tables 
+
+bmi_suicide <- inner_join(data_copy, suicide, by=c('region_code', 'region', 'location_code', 'location', 'period', 'gender', 'gender_code'))
+
+ggplot(bmi_suicide, aes(average_bmi, suicide_rate, col=region)) + geom_jitter(alpha=0.2) + geom_smooth(se=FALSE)
+
+
+bmi_suicide %>%
+  filter(region == 'Africa') %>%
+  ggplot(aes(average_bmi, suicide_rate)) + geom_jitter(alpha=0.2) + geom_smooth(se=FALSE)
+
+bmi_suicide %>%
+  filter(region == 'Americas') %>%
+  ggplot(aes(average_bmi, suicide_rate)) + geom_jitter(alpha=0.2) + geom_smooth(se=FALSE)
+
+
+#bring in table about non communicatable disease deaths;
+
+ncdeaths <- read.csv('ncd_deaths.csv')
+
+#join tables, I tidied data in excel already:
+
+bmi_ncdeaths <- inner_join(data_copy, ncdeaths, by=c('region_code', 'region', 'location_code', 'location', 'period', 'gender', 'gender_code'))
+
+ggplot(bmi_ncdeaths, aes(average_bmi, ncd_deaths)) + geom_point() + geom_smooth(se=FALSE)
+
+
+#bring in table about premature deaths non communicatable diseases 
+
+premature_deaths <- read.csv('prematurencddeaths.csv')
+
+
+bmi_premature <- inner_join(data_copy, premature_deaths, by=c('region_code', 'region', 'location_code', 'location', 'period', 'gender', 'gender_code'))
+ggplot(bmi_premature, aes(average_bmi, deaths)) + geom_jitter(alpha=0.4) + geom_smooth(se=FALSE) + 
+  ggtitle('Percentage of premature deaths from non communicatable diseases')
+#premature deaths increase around bmi of 23 nad bmi of 29 - Possible relationship
