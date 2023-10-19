@@ -208,6 +208,23 @@ ggsave('bmi boxplot for all regions.png', scale=3)
 ggplot(data_copy, aes(period, average_bmi, col=location)) + geom_point()
 
 
+
+data_copy %>% 
+  ggplot(aes(x = period, 
+             y = average_bmi, 
+             colour = location)) + 
+  geom_smooth(se = FALSE, linewidth=1) + #removes the standard bars and sets line width
+  labs(title = 'BMI across time',
+       subtitle = 'Each region has trended up - interesting behaviour in Western Pacific',
+       x = '',
+       y = 'BMI',
+       colour = '') +
+  facet_wrap(~region) + #this creates a graph for each region
+  theme_minimal() + #I like how this looks
+  guides(colour = "none")  #this line removes the colour legend
+
+
+
 #Only look at countries in south east asia:
 south_east_asia <- data_copy %>%
   filter(region == 'South-East Asia')
@@ -436,7 +453,7 @@ bmi_traffic <- inner_join(data_copy, traffic, by = c('region_code', 'region', 'l
 
 #Try to investigate if a high bmi results in more traffic deaths.
 bmi_traffic %>%
-  filter(num_deaths > 1,
+  filter(num_deaths > 5000,
          num_deaths < 20000) %>%
   ggplot(aes(average_bmi, num_deaths)) +geom_jitter() + geom_smooth(method=lm, se=FALSE)
 
@@ -465,10 +482,11 @@ suicide <- suicide %>%
 
 bmi_suicide <- inner_join(data_copy, suicide, by=c('region_code', 'region', 'location_code', 'location', 'period', 'gender', 'gender_code'))
 
-ggplot(bmi_suicide, aes(average_bmi, suicide_rate, col=region)) + geom_jitter(alpha=0.2) + geom_smooth(se=FALSE)
+ggplot(bmi_suicide, aes(average_bmi, suicide_rate, col=region)) + geom_jitter(alpha=0.2) + geom_smooth(se=FALSE) +
+  ggtitle('suicide rates')
 
 
-bmi_suicide %>%
+yubmi_suicide %>%
   filter(region == 'Africa') %>%
   ggplot(aes(average_bmi, suicide_rate)) + geom_jitter(alpha=0.2) + geom_smooth(se=FALSE)
 
@@ -497,3 +515,42 @@ bmi_premature <- inner_join(data_copy, premature_deaths, by=c('region_code', 're
 ggplot(bmi_premature, aes(average_bmi, deaths)) + geom_jitter(alpha=0.4) + geom_smooth(se=FALSE) + 
   ggtitle('Percentage of premature deaths from non communicatable diseases')
 #premature deaths increase around bmi of 23 nad bmi of 29 - Possible relationship
+
+
+#Bring in table about house hold pollution deaths
+
+
+house_pollution <- read.csv('household_pollution_deaths.csv')
+
+bmi_housepollution <- inner_join(data_copy, house_pollution, by=c('region_code', 'region', 'location_code', 'location', 'period', 'gender', 'gender_code'))
+#No observatins because all the data in the house pollution data is in 2019.
+
+
+#Mortalityrate datasets:
+
+mortality_rates <- read.csv('mortalityrate.csv')
+
+bmi_mortality_rates <- inner_join(data_copy, mortality_rates, by=c('region_code', 'region', 'location_code', 'location', 'period', 'gender', 'gender_code'))
+
+ggplot(bmi_mortality_rates, aes(average_bmi, mortality_rate, col=region)) + geom_jitter(alpha=0.4) + geom_smooth(method='lm', se=FALSE)
+
+
+
+#homicides dataset:
+
+homicides <- read.csv('homicides.csv')
+
+bmi_homicides <- inner_join(data_copy, homicides, by=c('region_code', 'region', 'location_code', 'location', 'period', 'gender', 'gender_code'))
+
+bmi_homicides %>%
+  filter(num_homicides > 1000) %>%
+  ggplot(aes(average_bmi, num_homicides)) + geom_jitter()
+
+
+#life expectancy:
+
+lifeexpectancy <- read.csv('life_expectancy.csv')
+
+bmi_lifeexpectancy <- inner_join(data_copy, lifeexpectancy, by=c('region_code', 'region', 'location_code', 'location', 'period', 'gender', 'gender_code'))
+
+ggplot(bmi_lifeexpectancy, aes(average_bmi, life_expect_birth)) + geom_jitter()       
