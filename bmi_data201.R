@@ -453,8 +453,8 @@ bmi_traffic <- inner_join(data_copy, traffic, by = c('region_code', 'region', 'l
 
 #Try to investigate if a high bmi results in more traffic deaths.
 bmi_traffic %>%
-  filter(num_deaths > 5000,
-         num_deaths < 20000) %>%
+  filter(num_deaths > 00,
+         ) %>%
   ggplot(aes(average_bmi, num_deaths)) +geom_jitter() + geom_smooth(method=lm, se=FALSE)
 
 
@@ -482,11 +482,11 @@ suicide <- suicide %>%
 
 bmi_suicide <- inner_join(data_copy, suicide, by=c('region_code', 'region', 'location_code', 'location', 'period', 'gender', 'gender_code'))
 
-ggplot(bmi_suicide, aes(average_bmi, suicide_rate, col=region)) + geom_jitter(alpha=0.2) + geom_smooth(se=FALSE) +
+ggplot(bmi_suicide, aes(average_bmi, suicide_rate, col=gender)) + geom_jitter(alpha=0.2) + geom_smooth(se=FALSE) +
   ggtitle('suicide rates')
 
 
-yubmi_suicide %>%
+bmi_suicide %>%
   filter(region == 'Africa') %>%
   ggplot(aes(average_bmi, suicide_rate)) + geom_jitter(alpha=0.2) + geom_smooth(se=FALSE)
 
@@ -553,4 +553,19 @@ lifeexpectancy <- read.csv('life_expectancy.csv')
 
 bmi_lifeexpectancy <- inner_join(data_copy, lifeexpectancy, by=c('region_code', 'region', 'location_code', 'location', 'period', 'gender', 'gender_code'))
 
-ggplot(bmi_lifeexpectancy, aes(average_bmi, life_expect_birth)) + geom_jitter()       
+
+bmi_lifeexpectancy %>%
+  filter(life_expect_birth > 38)  %>%
+  ggplot(aes(average_bmi, life_expect_birth)) + geom_jitter() + geom_smooth(method='lm', se= FALSE)       
+
+
+#percentage of househouse spending on health more than 10% of household budget
+
+household_spend <- read.csv('householdspendinghealth.csv')
+
+bmi_householdspend <- inner_join(data_copy, household_spend, by=c('region_code', 'region', 'location_code', 'location', 'period'), relationship= 'many-to-many')
+
+bmi_householdspend %>%
+  filter(proportion > 10,
+         average_bmi > 24)%>%
+  ggplot(aes(average_bmi, proportion)) + geom_jitter() + geom_smooth(method='lm', se=FALSE)
