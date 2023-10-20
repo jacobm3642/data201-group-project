@@ -367,11 +367,11 @@ sugar_data <- sugar_data %>%
 
 #Join tables:
 
-sugar_bmi <- merge(data_copy, sugar_data, by='location_code', 'region_code')
+#sugar_bmi <- merge(data_copy, sugar_data, by='location_code', 'region_code')
 
-sugar_bmi %>%
-  filter(period.x==2016) %>%
-  ggplot(aes(sugar_value, average_bmi)) + geom_jitter(alpha=0.8, width=2) + geom_smooth(method=lm, se=FALSE)
+#sugar_bmi %>%
+ # filter(period.x==2016) %>%
+  #ggplot(aes(sugar_value, average_bmi)) + geom_jitter(alpha=0.8, width=2) + geom_smooth(method=lm, se=FALSE)
 
 
 #BRING IN ANTOHER DATASET ABOUT DISEASES:
@@ -508,6 +508,7 @@ ggplot(bmi_ncdeaths, aes(average_bmi, ncd_deaths)) + geom_point() + geom_smooth(
 
 #bring in table about premature deaths non communicatable diseases 
 
+
 premature_deaths <- read.csv('prematurencddeaths.csv')
 
 
@@ -569,3 +570,50 @@ bmi_householdspend %>%
   filter(proportion > 10,
          average_bmi > 24)%>%
   ggplot(aes(average_bmi, proportion)) + geom_jitter() + geom_smooth(method='lm', se=FALSE)
+
+
+#SUgar
+
+sugar <- read.csv('sugar.csv')
+
+pivot_sugar <- sugar %>%
+  pivot_longer(cols = -country, names_to='year', 
+               values_to='daily_sugar_pp_grams')
+
+pivot_sugar$year <- gsub("X", "", pivot_sugar$year)
+
+pivot_sugar$year <- as.numeric(pivot_sugar$year)
+
+pivot_sugar <- pivot_sugar %>%
+  rename(location = country,
+         period = year)
+
+#join to bmi table:
+
+bmi_sugar <- inner_join(data_copy, pivot_sugar, by=c("location", "period"), relationship="many-to-many")
+
+bmi_sugar %>% 
+  filter(period == 1975) %>%
+  ggplot(aes(daily_sugar_pp_grams, average_bmi)) + geom_jitter() + geom_smooth(method='lm', se=FALSE)
+
+
+bmi_sugar %>%
+  filter(period =='1975'|
+         period =='1985'|
+         period =='1995'|
+         period =='2015') %>%
+  ggplot(aes(x = daily_sugar_pp_grams, y = average_bmi)) + 
+  geom_jitter() +
+  geom_smooth(method='lm', se = FALSE, linewidth=1) + #removes the standard bars and sets line width
+  xlim(0,200) +
+  labs(title = 'BMI per daily sugar consumption ',
+       subtitle = 'Each region has trended up - interesting behaviour in Western Pacific',
+       x = 'sugar',
+       y = 'BMI',
+       colour = '') +
+  facet_wrap(~period) + #this creates a graph for each specified year
+  theme_minimal() + #I like how this looks
+  guides(colour = "none")  #this line removes the colour legend
+
+
+
