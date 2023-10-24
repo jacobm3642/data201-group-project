@@ -513,7 +513,10 @@ premature_deaths <- read.csv('prematurencddeaths.csv')
 
 
 bmi_premature <- inner_join(data_copy, premature_deaths, by=c('region_code', 'region', 'location_code', 'location', 'period', 'gender', 'gender_code'))
-ggplot(bmi_premature, aes(average_bmi, deaths)) + geom_jitter(alpha=0.4) + geom_smooth(se=FALSE) + 
+
+bmi_premature %>%
+  filter(period > 2000) %>%
+  ggplot(aes(average_bmi, deaths)) + geom_jitter(alpha=0.4) + geom_smooth(method = 'lm', se=FALSE) + 
   ggtitle('Percentage of premature deaths from non communicatable diseases')
 #premature deaths increase around bmi of 23 nad bmi of 29 - Possible relationship
 
@@ -556,7 +559,7 @@ bmi_lifeexpectancy <- inner_join(data_copy, lifeexpectancy, by=c('region_code', 
 
 
 bmi_lifeexpectancy %>%
-  filter(life_expect_birth > 38)  %>%
+  filter(life_expect_birth > 0)  %>%
   ggplot(aes(average_bmi, life_expect_birth)) + geom_jitter() + geom_smooth(method='lm', se= FALSE)       
 
 
@@ -567,7 +570,7 @@ household_spend <- read.csv('householdspendinghealth.csv')
 bmi_householdspend <- inner_join(data_copy, household_spend, by=c('region_code', 'region', 'location_code', 'location', 'period'), relationship= 'many-to-many')
 
 bmi_householdspend %>%
-  filter(proportion > 10,
+  filter(proportion > 30,
          average_bmi > 24)%>%
   ggplot(aes(average_bmi, proportion)) + geom_jitter() + geom_smooth(method='lm', se=FALSE)
 
