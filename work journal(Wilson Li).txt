@@ -1,0 +1,46 @@
+9/19
+Read through the project guide line and try to find some interesting data set.
+9/20
+Making up the question for the data set.
+9/21
+Finding the question is too hard to slove, try to do some research online see if there are better data set. Created some plots but didn't work well.
+9/22
+Meet up with the team members and decided a topic.
+9/25
+Try to learn how to use github online and found the data set that I would like to work on. Check out the stuffs on github that done from the team members. Talk to Ethan about my data set and had a plan of how I want to work on it.
+10/1
+Went to lab with teamates and they helped me to build up a structure of how I want the data set looks like. Working on the data set.
+10/3
+Working on the data set, tried different method with the missing data. At the same time, try to tidy up the data set.
+10/4
+Working on the data set. I have created some plots and find out the relationship between gender and BMI.
+10/6
+Worked out the relationship between BMI of parent and children, adding comments.
+10/9
+Learn how to use github from Jacob and uploaded the work that I have so far to github.
+10/10
+Try to move everything into jupyter lab and add more comments. Discussed what we want to present in the presentation and Ethan made up a power point.
+10/11
+Check out the work from Ethan and communicate with team members about how depth we want to work on the data set. Keep searching for the relationship between BMI and parent and other variables.
+10/12
+Put the graph that I think I could talk about into the power point and write down the points that I'm going to talk about in the presentation.
+10/13
+Communicate with team members and reframing my speech. Remove the graphs that I don't need.
+10/16
+Ethan found out the the range of BMI of children is wrong and I correct them and put them into the power point. At the same time, writing the notes about what I'm struggling with this project. Plan out the parts of this presentation that each of us will be responsible for.
+10/17
+Start on the report, and I have add some stuffs in it.
+10/18
+Keep working on the code notebook. Oscar gave me some advices about how to write the comments.
+10/22
+Learn how to write the comments in markdown from Oscar. Keep adding the comments.
+10/23
+Finshed the code notebook and shared with team, then Oscar gives me more advice on how to make my code notebook better.
+10/25
+Keep working on the code notebook.
+10/26
+Finished the code notebook and upload the final version of code notebook and cleaned data set to github.
+
+
+
+
