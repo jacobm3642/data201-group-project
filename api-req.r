@@ -30,24 +30,26 @@ get_all_indicators <- function() {
     return(data$value)
 }
 
-get_health_data <- function(indicators) {
-    base_url <- "https://ghoapi.azureedge.net/api/"
+get_health_data <- function(indicator, use_athena) {
+    if (use_athena == 1) {
+        base_url <- "http://apps.who.int/gho/athena/api/"
+        url <- paste0(base_url, "GHO/", indicator, ".xml")
+    } else if (use_athena == 0) {
+        base_url <- "https://ghoapi.azureedge.net/api/"
+        url <- paste0(base_url, indicator)
+    } else {
+        cat("Invalid argument use 1 for Athena API or 0 for Azure API.")
+        return(NULL)
+    }
     
-    data_frames <- list()
-  
-        for (indicator in indicators) {
-            url <- paste0(base_url, indicator)
-
-            cat("URL:", url, "\n")  # For debugging
-
-            response <- GET(url)
-            http_status(response)
-
-            if (http_error(response)) {
-                cat("L1 Error:", http_status(response)$reason, "\n")
-            } else {
-                data <- content(response, "parsed")
-            }
-        }
-    return(data[2])
+    cat("URL:", url, "\n")  # For debugging
+    
+    response <- GET(url)
+    
+    if (http_error(response)) {
+        cat("L1 Error:", http_status(response)$reason, "\n")
+        return(NULL)
+    } else {
+        return(content(response, "parsed"))
+    }
 }
