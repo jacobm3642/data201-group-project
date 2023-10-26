@@ -4,14 +4,13 @@ source("./api-req.r")
 source("./api_wrangler.r")
 # devtools::install_github('jeremystan/tidyjson')
 library(tidyjson)
+library(gridExtra)
 
+bmi <- get_ind_data_local(read_csv("./bmi_data.csv"))
+diabetes_plan <- get_ind_data_local(read_csv("./diabetes_data.csv"))
+availability_of_diabetes_testing <- get_ind_data_local(read_csv("./H1MseuNv.csv"))
 
-bmi <- get_ind_data(read_csv("./bmi_data.csv"))
-diabetes_plan <- get_ind_data(read_csv("./diabetes_data.csv"))
-
-bmi <- bmi %>% rename(Country_code = SpatialDimValueCode)
-
-diabetes_plan <- diabetes_plan %>% rename(Country_code = SpatialDimValueCode)
+availability_of_diabetes_testing <- availability_of_diabetes_testing %>% mutate(Value = as.factor(Value))
 
 diabetes_plan <- diabetes_plan %>% mutate(Value = as.factor(Value))
 
@@ -40,8 +39,8 @@ plot_2015 <- ggplot(diabetes_bmi_2015, aes(x = factor(plan_res), y = bmi)) +
          y = "BMI by country") +
     theme_minimal()
 
-# Arrange the plots in one panel
 grid.arrange(plot_2013, plot_2015, ncol = 2)
+
 
 
 #twobig %>%
