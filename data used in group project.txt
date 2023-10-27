@@ -1,0 +1,13 @@
+https://www.who.int/data/gho/data/indicators/indicator-details/GHO/probability-of-dying-between-exact-ages-30-and-70-from-any-of-cardiovascular-disease-cancer-diabetes-or-chronic-respiratory-(-)
+
+https://www.who.int/data/gho/data/indicators/indicator-details/GHO/probability-of-dying-between-exact-ages-30-and-70-from-any-of-cardiovascular-disease-cancer-diabetes-or-chronic-respiratory-(-)
+
+https://www.who.int/data/gho/data/themes/topics/sdg-target-3_6-road-traffic-injuries
+
+https://www.who.int/data/gho/data/themes/mental-health/suicide-rates
+
+https://www.who.int/data/gho/data/indicators/indicator-details/GHO/gho-ghe-ncd-deaths-in-thousands
+
+https://www.who.int/data/gho/data/indicators/indicator-details/GHO/ncd-deaths-under-age-70-(percent-of-all-ncd-deaths)
+
+https://www.who.int/data/gho/data/indicators/indicator-details/GHO/household-air-pollution-attributable-deaths

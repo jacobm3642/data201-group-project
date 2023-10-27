@@ -1,0 +1,54 @@
+Session 1 - 18/09 
+I emailed everyone that we were working together for this group project, I participated in the lab and met with Jacob, he suggested and taught me how to use the git hub repository which will be really useful for the future of our project. Jacob and I looked around the web for some datasets. I found one about the global bmi accross the years which I thought was interesting, it also had details on gender and age etc which will be useful for findings for our potential topic. I plotted a graph using ggplot in R to show the bmi ranges accross the different regions, as I expected the western regions had the highest bmi. Juelin suggested we created a discord group to communicate to each other which was a good idea. 
+
+Session 2 - 22/09
+Had a group meeting With Jacob and Wilson. We decided on a topic - Has the average bmi increased and what causes it? We decided that by the end of next week we will have all the datasets cleaned and come up with some good plots. We also determined everyone's strengths and gave each person a task depending on their strengths - Jacob will get all the datasets into a CSV format and combine the multiple datasets together using primary and foregin keys. Wilson will clean the data and I will be producing the plo
+
+Session 3 - 25/09
+Attended the lab with Jacob. I cleaned my dataset and produced some plots. Unfortunate Juelin was feeling sick and Oscar had to look after his kid.
+
+Session 4 - 02/10
+Attended the lab with Jacob and Juelin, Produced some more plots.
+
+Session 5 - 09/10
+Attended the lab by myself. I saved the plots using ggsave and uploaded them to git. Should be able to start assembling slide show next time. I know Oscar had to look after his kid but I am  not sure why Juelin and Jacob didn't attend.
+
+Session 6 - 11/10
+I created the powerpoint and shared it with everyone.
+
+Session 7 - 12/10
+I tidied up my plots and got them ready for the presentation
+
+Session 8 - 14/10
+I put my plots in the presentation and added some other information to the slideshow 
+
+Session 9 - 15/10 
+I added more information to the presentation and formatted it 
+
+Session 10 - 16/10e
+I made sure that the presentation was finished. We presented this day. We learnt that we need to work on our relational database model.
+
+Session 11 - 17/10
+I created the document and jupyter note book for the report. I also brought in more datasets to create a relational data model. I am using data about each countries' sugar consumption and another about diseases that are usually caused from obesety. Oscar did a good amount on the document for the report, Juelin wrote a couple sentances, I have not heard anything from jacob today despite messaging the group chat.
+
+Session 12 - 18/10 
+I merged multiple datasets to the original bmi dataset to try and find relationships, I think I found a good relationship with bmi and the proporition of premature deaths from non communicatable diseases.
+
+Session 13 - 19/10
+Tried to find relationships with varaibles from other tables.
+
+Session 14 - 20/10
+Used Oscar's Sugar dataset and found a nice correlation with daily sugar consumption and bmi.
+
+Session 15 - 23/10
+We needed to find the average values for all the genders, after a couple hours I figured it out and I added the columns to the dataset. 
+
+Session 16 - 24/10
+I added my final stuff to the shared report, I also wrote up some stuff in the document. Me and Oscar are working well on this report. 
+
+Session 17 - 25/10
+I drew the relational database model using lucid charts.
+
+Session 18 - 26/10
+Final touches to the report and codebooks.
+

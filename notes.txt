@@ -1,5 +1,0 @@
-https://www.atlassian.com/git/tutorials/atlassian-git-cheatsheet
-
------------------------------- dataset links ------------------------------
-
-https://github.com/factbook/factbook.json.git
